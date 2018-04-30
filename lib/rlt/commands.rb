@@ -4,16 +4,29 @@ require 'rlt/git_native_command'
 
 module Rlt
   class Commands
-    def self.get(command_name)
-      item = list.select {|item| item[0] == command_name}.first
-      return nil if item.nil?
-      item[1]
-    end
+    MAP = {
+      'add' => GitNativeCommand,
+      'branch' => GitNativeCommand,
+      'checkout' => GitNativeCommand,
+      'clone' => GitNativeCommand,
+      'commit' => GitNativeCommand,
+      'config' => GitNativeCommand,
+      'diff' => GitNativeCommand,
+      'fetch' => GitNativeCommand,
+      'grep' => GitNativeCommand,
+      'init' => GitNativeCommand,
+      'log' => GitNativeCommand,
+      'merge' => GitNativeCommand,
+      'pull' => GitNativeCommand,
+      'push' => GitNativeCommand,
+      'remote' => GitNativeCommand,
+      'reset' => GitNativeCommand,
+      'status' => GitNativeCommand,
+      'tag' => GitNativeCommand
+    }.freeze
 
-    def self.list
-      [
-        ['add', GitNativeCommand]
-      ]
+    def self.get(command_name)
+      MAP[command_name]
     end
   end
 end

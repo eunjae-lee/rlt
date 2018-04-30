@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rlt/version'
+require 'tty-command'
 require 'rlt/commands'
 
 module Rlt
