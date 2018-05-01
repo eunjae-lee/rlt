@@ -2,3 +2,8 @@ Documentation:
   Enabled: false
 Metrics/LineLength:
   Max: 100
+Metrics/MethodLength:
+  Max: 5
+AllCops:
+  Exclude:
+    - 'lib/rlt/base_command.rb'

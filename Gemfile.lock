@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     rlt (0.1.0)
+      pastel (~> 0.7.2)
       tty-command (~> 0.8.0)
 
 GEM
