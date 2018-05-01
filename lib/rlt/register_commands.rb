@@ -20,5 +20,7 @@ module Rlt
     CommandsMap.add 'reset', Commands::GitNativeCommand
     CommandsMap.add 'status', Commands::GitNativeCommand
     CommandsMap.add 'tag', Commands::GitNativeCommand
+
+    CommandsMap.add 'switch', Commands::SwitchCommand
   end
 end
