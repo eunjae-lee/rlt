@@ -8,6 +8,9 @@ require 'rlt/register_commands'
 require 'rlt/command_runner'
 
 module Rlt
+  def self.debug
+    true
+  end
   include RegisterCommands
   extend CommandRunner
 end
