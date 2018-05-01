@@ -9,7 +9,7 @@ class Shell
   end
 
   def run(*args)
-    @cmd.run *args, user: Etc.getlogin
+    @cmd.run(*args, user: Etc.getlogin)
     puts '' if Rlt.debug
   end
 end
