@@ -1,30 +1,100 @@
 # Rlt
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rlt`. To experiment with that code, run `bin/console` for an interactive prompt.
+rlt is a git wrapper with convenient methods included.
 
-TODO: Delete this and the text above, and describe your gem
+## Commands
+
+### cmt
+```
+$ rlt cmt
+Subject: Fix a bug where user cannot login
+Body:
+> There was a problem at ......
+>
+```
+
+If there's nothing to put as body, you can just hit enter to skip it.
+
+### switch
+```
+$ rlt switch <branch_name>
+```
+
+This will switch to `<branch_name>`. If the branch does not exist, then it will create it.
+
+## Configuration
+
+The great power in rlt comes from configuration, using ERB syntax in YAML.
+
+```yaml
+command:
+  switch:
+    branch_name_template: feature-<%= branch_name %>
+  cmt:
+    subject_template: >
+      My prefix <%= subject %>
+    body_template: >
+      <%= body %> http://...
+alias:
+  br: branch
+  sw: switch
+  l: log --oneline
+```
+
+### switch
+When you type `rlt switch login`, then it will automatically switch to a branch named `feature-login`.
+* Variable available for `branch_name_template` is `branch_name`.
+
+### cmt
+When you `cmt` with subject 'Hello' and body 'World', then the commit message will be:
+
+```
+My prefix Hello
+
+World http://...
+```
+
+* Variables available for `subject_template` are `branch_name` and `subject`.
+* Variables available for `body_template` are `branch_name` and `body`.
+
+### alias
+You can define alias as you want.
+
+### Advanced
+You can use this configuration as you want. Just for your information, you can do like this:
+
+```
+command:
+  switch:
+    branch_name_template: JIRA-<%= branch_name %>
+  cmt:
+    subject_template: >
+      <%= if branch_name.start_with?('JIRA-') then "[#{branch_name}] #{subject}" else subject end %>
+    body_template: >
+      <%= if branch_name.start_with?('JIRA-') then "http://myjira.com/#{branch_name}\n\n#{body}" else body end %>
+```
+
+If you do `rlt switch 123`, then you'll be in `JIRA-123` branch.
+
+As long as you're in that branch, when you `cmt` with subject 'Hello' and body 'World', then the commit message will be:
+
+```
+[JIRA-123] Hello
+
+http://myjira.com/JIRA-123
+
+World
+```
+
+This helps you construct commit message with a convention of yours.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+    $ brew install rlt
 
-```ruby
-gem 'rlt'
-```
+rlt wraps all the native commands of git. So you can make the alias like the following:
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install rlt
-
-## Usage
-
-```
-echo "alias git='rlt'" >> ~/.bash_profile && source ~/.bash_profile
-```
+    $ echo "alias git='rlt'" >> ~/.bash_profile && source ~/.bash_profile
 
 ## Development
 

@@ -44,7 +44,7 @@ module Rlt
 
       def self.ask_body
         puts 'Body: ' + Pastel.new.magenta('(Insert empty line to finish)')
-        lines = ask_multiline_until_done('>', :magenta)
+        lines = ask_multiline_until_done('>', :cyan)
         lines.join("\n")
       end
 
