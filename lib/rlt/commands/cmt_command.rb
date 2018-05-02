@@ -11,11 +11,16 @@ module Rlt
       CONF_SUBJECT_TEMPLATE = 'subject_template'.freeze
       CONF_BODY_TEMPLATE = 'body_template'.freeze
 
-      def self.run(_command, config, *_arguments)
+      def self.run(_command, config, *arguments)
         branch_name = acquire_branch_name
         subject = change_subject(ask_subject, config, branch_name)
         body = change_body(ask_body, config, branch_name)
+        add_all if arguments[0] == '-a'
         commit(subject, body)
+      end
+
+      def self.add_all
+        Shell.new.run 'git', 'add', '.'
       end
 
       def self.commit(subject, body)
