@@ -17,7 +17,8 @@ module Rlt
     def validate_and_run_command(command, arguments, command_class)
       valid = command_class.valid_parameters?(command, *arguments)
       return command_class.print_help(command, *arguments) unless valid
-      command_class.run(command, *arguments)
+      config = Rlt.config(command)
+      command_class.run(command, config, *arguments)
     end
   end
 end

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rlt/commands_map'
+
 module Rlt
   module RegisterCommands
     CommandsMap.add 'add', Commands::GitNativeCommand

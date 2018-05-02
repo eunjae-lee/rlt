@@ -3,7 +3,7 @@
 module Rlt
   module Commands
     class GitNativeCommand < BaseCommand
-      def self.run(command, *arguments)
+      def self.run(command, _config, *arguments)
         Shell.new.run! 'git', command, *arguments
       end
 

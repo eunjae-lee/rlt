@@ -1,0 +1,2 @@
+switch:
+  branch_name_template: JIRA-<%= branch_name %>

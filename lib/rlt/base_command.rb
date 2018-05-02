@@ -2,7 +2,7 @@
 
 module Rlt
   class BaseCommand
-    def self.run(command, *arguments)
+    def self.run(command, config, *arguments)
       raise 'implement me'
     end
 

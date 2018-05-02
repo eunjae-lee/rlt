@@ -5,10 +5,9 @@ require 'rlt/shell'
 require 'rlt/logger'
 require 'rlt/base_command'
 Dir["#{__dir__}/rlt/commands/**/*.rb"].each { |f| require f }
-require 'rlt/commands/git_native_command'
-require 'rlt/commands_map'
 require 'rlt/register_commands'
 require 'rlt/command_runner'
+require 'rlt/config'
 
 module Rlt
   def self.debug
@@ -16,4 +15,5 @@ module Rlt
   end
   include RegisterCommands
   extend CommandRunner
+  extend Config
 end
