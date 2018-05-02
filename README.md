@@ -22,7 +22,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+echo "alias git='rlt'" >> ~/.bash_profile && source ~/.bash_profile
+```
 
 ## Development
 

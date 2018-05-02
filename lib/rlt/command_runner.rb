@@ -5,9 +5,9 @@ module Rlt
     def run(argv)
       command = argv[0]
       arguments = argv[1..-1]
-      command_class = Rlt::CommandsMap.get(command)
-      return print_help if command_class.nil?
-      validate_and_run_command(command, arguments, command_class)
+      info = Rlt::CommandsMap.get(command)
+      return print_help if info.nil? || info[:class].nil?
+      validate_and_run_command(command, info[:default_args] + arguments, info[:class])
     end
 
     def print_help
@@ -15,10 +15,10 @@ module Rlt
     end
 
     def validate_and_run_command(command, arguments, command_class)
-      valid = command_class.valid_parameters?(command, *arguments)
-      return command_class.print_help(command, *arguments) unless valid
-      config = Rlt.config(command)
-      command_class.run(command, config, *arguments)
+      valid = command_class.valid_parameters?(*arguments)
+      return command_class.print_help(*arguments) unless valid
+      config = Rlt.config('command', command)
+      command_class.run(config, *arguments)
     end
   end
 end

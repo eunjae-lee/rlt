@@ -3,32 +3,19 @@
 require 'rlt/commands_map'
 
 module Rlt
-  module RegisterCommands
-    CommandsMap.add 'add', Commands::GitNativeCommand
-    CommandsMap.add 'bisect', Commands::GitNativeCommand
-    CommandsMap.add 'branch', Commands::GitNativeCommand
-    CommandsMap.add 'checkout', Commands::GitNativeCommand
-    CommandsMap.add 'clone', Commands::GitNativeCommand
-    CommandsMap.add 'commit', Commands::GitNativeCommand
-    CommandsMap.add 'config', Commands::GitNativeCommand
-    CommandsMap.add 'diff', Commands::GitNativeCommand
-    CommandsMap.add 'fetch', Commands::GitNativeCommand
-    CommandsMap.add 'grep', Commands::GitNativeCommand
-    CommandsMap.add 'init', Commands::GitNativeCommand
-    CommandsMap.add 'log', Commands::GitNativeCommand
-    CommandsMap.add 'merge', Commands::GitNativeCommand
-    CommandsMap.add 'mv', Commands::GitNativeCommand
-    CommandsMap.add 'pull', Commands::GitNativeCommand
-    CommandsMap.add 'push', Commands::GitNativeCommand
-    CommandsMap.add 'rebase', Commands::GitNativeCommand
-    CommandsMap.add 'remote', Commands::GitNativeCommand
-    CommandsMap.add 'reset', Commands::GitNativeCommand
-    CommandsMap.add 'rm', Commands::GitNativeCommand
-    CommandsMap.add 'show', Commands::GitNativeCommand
-    CommandsMap.add 'status', Commands::GitNativeCommand
-    CommandsMap.add 'tag', Commands::GitNativeCommand
+  class RegisterCommands
+    def self.register
+      git_native_commands.each do |command|
+        CommandsMap.add command, Commands::GitNativeCommandBuilder.build(command)
+      end
 
-    CommandsMap.add 'switch', Commands::SwitchCommand
-    CommandsMap.add 'cmt', Commands::CmtCommand
+      CommandsMap.add 'switch', Commands::SwitchCommand
+      CommandsMap.add 'cmt', Commands::CmtCommand
+    end
+
+    def self.git_native_commands
+      %w[add bisect branch checkout clone commit config diff fetch grep init
+         log merge mv pull push rebase remote reset rm show status tag]
+    end
   end
 end

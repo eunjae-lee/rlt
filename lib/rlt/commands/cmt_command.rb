@@ -11,7 +11,7 @@ module Rlt
       CONF_SUBJECT_TEMPLATE = 'subject_template'.freeze
       CONF_BODY_TEMPLATE = 'body_template'.freeze
 
-      def self.run(_command, config, *arguments)
+      def self.run(config, *arguments)
         branch_name = acquire_branch_name
         subject = change_subject(ask_subject, config, branch_name)
         body = change_body(ask_body, config, branch_name)
@@ -76,11 +76,11 @@ module Rlt
         `git rev-parse --abbrev-ref HEAD`.strip
       end
 
-      def self.print_help(command, *arguments)
-        puts "help #{command} #{arguments}"
+      def self.print_help(*arguments)
+        puts "help #{arguments}"
       end
 
-      def self.valid_parameters?(_command, *arguments)
+      def self.valid_parameters?(*arguments)
         arguments.size <= 1
       end
     end

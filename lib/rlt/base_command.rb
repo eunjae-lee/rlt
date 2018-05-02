@@ -2,15 +2,15 @@
 
 module Rlt
   class BaseCommand
-    def self.run(command, config, *arguments)
+    def self.run(config, *arguments)
       raise 'implement me'
     end
 
-    def self.print_help(command, *arguments)
+    def self.print_help(*arguments)
       raise 'implement me'
     end
 
-    def self.valid_parameters?(command, *arguments)
+    def self.valid_parameters?(*arguments)
       raise 'implement me'
     end
   end

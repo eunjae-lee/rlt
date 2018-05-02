@@ -4,10 +4,20 @@ require 'yaml'
 
 module Rlt
   module Config
-    def config(command)
-      (@config ||= load_config)['commands'][command]
+    def config(category, command)
+      category_config(category)[command]
     rescue NoMethodError
       {}
+    end
+
+    def config_keys(category)
+      category_config(category).keys
+    rescue NoMethodError
+      []
+    end
+
+    def category_config(category)
+      (@config ||= load_config)[category]
     end
 
     def load_config
@@ -17,7 +27,11 @@ module Rlt
     end
 
     def file_path
-      "#{Dir.pwd}/.rlt.yml"
+      if Rlt.debug
+        "#{Dir.pwd}/.rlt.sample.yml"
+      else
+        "#{Dir.pwd}/.rlt.yml"
+      end
     end
   end
 end

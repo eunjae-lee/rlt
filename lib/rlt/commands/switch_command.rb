@@ -7,7 +7,7 @@ module Rlt
     class SwitchCommand < BaseCommand
       CONF_BRANCH_NAME_TEMPLATE = 'branch_name_template'.freeze
 
-      def self.run(_command, config, *arguments)
+      def self.run(config, *arguments)
         branch_name = change_branch_name(config, arguments[0])
         switch(branch_name)
         pull
@@ -41,11 +41,11 @@ module Rlt
         result
       end
 
-      def self.print_help(command, *arguments)
-        puts "help #{command} #{arguments}"
+      def self.print_help(*arguments)
+        puts "help #{arguments}"
       end
 
-      def self.valid_parameters?(_command, *arguments)
+      def self.valid_parameters?(*arguments)
         arguments.size == 1
       end
 
