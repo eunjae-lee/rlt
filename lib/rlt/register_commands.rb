@@ -24,5 +24,6 @@ module Rlt
     CommandsMap.add 'tag', Commands::GitNativeCommand
 
     CommandsMap.add 'switch', Commands::SwitchCommand
+    CommandsMap.add 'cmt', Commands::CmtCommand
   end
 end

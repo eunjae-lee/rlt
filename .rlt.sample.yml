@@ -1,2 +1,8 @@
-switch:
-  branch_name_template: JIRA-<%= branch_name %>
+commands:
+  switch:
+    branch_name_template: JIRA-<%= branch_name %>
+  cmt:
+    subject_template: >
+      <%= if branch_name.start_with?('JIRA-') then "[#{branch_name}] #{subject}" else subject end %>
+    body_template: >
+      <%= if branch_name.start_with?('JIRA-') then "http://myjira.com/#{branch_name}\n\n#{body}" else body end %>

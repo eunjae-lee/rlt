@@ -4,12 +4,16 @@ require 'yaml'
 
 module Rlt
   module Config
-    def config(commmand)
-      (@config ||= load_config)[command] || {}
+    def config(command)
+      (@config ||= load_config)['commands'][command]
+    rescue NoMethodError
+      {}
     end
 
     def load_config
       YAML.load_file(file_path)
+    rescue Errno::ENOENT
+      {}
     end
 
     def file_path
