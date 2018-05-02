@@ -26,7 +26,7 @@ module Rlt
       end
 
       def self.short_random_string
-        (0...4).map { (65 + rand(26)).chr }.join
+        (0...4).map { rand(65..90).chr }.join
       end
 
       def self.ask_subject
