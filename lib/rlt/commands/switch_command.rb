@@ -10,7 +10,6 @@ module Rlt
       def self.run(config, *arguments)
         branch_name = change_branch_name(config, arguments[0])
         switch(branch_name)
-        pull
       end
 
       def self.change_branch_name(config, branch_name)
@@ -34,15 +33,11 @@ module Rlt
         Logger.info "Created & Switched to '#{branch_name}'."
       end
 
-      def self.pull
-        # Ignore error when there's no remote repository specified.
-        result = shell.run! 'git', 'pull'
-        Logger.info 'Pulled from remote.' unless result.failure?
-        result
-      end
-
       def self.print_help(*arguments)
-        puts "help #{arguments}"
+        puts 'USAGE:'
+        puts '  rlt switch <branch_name>'
+        puts ''
+        puts '  This command switches to <branch_name>. It creates the branch if it does not exist.'
       end
 
       def self.valid_parameters?(*arguments)

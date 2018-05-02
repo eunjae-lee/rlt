@@ -11,7 +11,17 @@ module Rlt
     end
 
     def print_help
-      puts 'help!'
+      puts 'Available commands:'
+      Rlt::CommandsMap.commands.each do |command|
+        desc = Rlt::CommandsMap.desc(command)
+        puts "  #{command}#{spaces(command)}    #{desc}"
+      end
+    end
+
+    def spaces(command)
+      max_length = Rlt::CommandsMap.commands.map(&:size).max
+      size = max_length - command.size
+      ' ' * size
     end
 
     def validate_and_run_command(command, arguments, command_class)

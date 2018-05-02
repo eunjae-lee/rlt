@@ -4,14 +4,18 @@ require 'rlt/commands_map'
 
 module Rlt
   class RegisterCommands
+    # rubocop:disable Metrics/MethodLength
     def self.register
       git_native_commands.each do |command|
-        CommandsMap.add command, Commands::GitNativeCommandBuilder.build(command)
+        desc = 'Git native command'
+        klass = Commands::GitNativeCommandBuilder.build(command)
+        CommandsMap.add command, desc, klass
       end
 
-      CommandsMap.add 'switch', Commands::SwitchCommand
-      CommandsMap.add 'cmt', Commands::CmtCommand
+      CommandsMap.add 'switch', 'Switch to branch', Commands::SwitchCommand
+      CommandsMap.add 'cmt', 'Commit in clear way', Commands::CmtCommand
     end
+    # rubocop:enable Metrics/MethodLength
 
     def self.git_native_commands
       %w[add bisect branch checkout clone commit config diff fetch grep init

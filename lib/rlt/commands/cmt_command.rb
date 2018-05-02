@@ -77,11 +77,14 @@ module Rlt
       end
 
       def self.print_help(*arguments)
-        puts "help #{arguments}"
+        puts 'USAGE:'
+        puts '  1. rlt commit # Almost same as `git commit`. You do not need `-m` parameter here.'
+        puts ''
+        puts '  2. rlt commit -a # This performs `git add .` before committing.'
       end
 
       def self.valid_parameters?(*arguments)
-        arguments.size <= 1
+        arguments.empty? or (arguments.size == 1 && arguments[0] == '-a')
       end
     end
   end
