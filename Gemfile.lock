@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rlt (0.1.1)
+    rlt (0.1.2)
       pastel (~> 0.7.2)
       tty-command (~> 0.8.0)
       tty-prompt (~> 0.16.1)
