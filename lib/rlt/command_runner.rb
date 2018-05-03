@@ -19,9 +19,12 @@ module Rlt
     end
 
     def spaces(command)
-      max_length = Rlt::CommandsMap.commands.map(&:size).max
-      size = max_length - command.size
+      size = max_command_length - command.size
       ' ' * size
+    end
+
+    def max_command_length
+      @max_command_length ||= Rlt::CommandsMap.commands.map(&:size).max
     end
 
     def validate_and_run_command(command, arguments, command_class)
