@@ -33,7 +33,7 @@ module Rlt
         Logger.info "Created & Switched to '#{branch_name}'."
       end
 
-      def self.print_help(*arguments)
+      def self.print_help(*_arguments)
         puts 'USAGE:'
         puts '  rlt switch <branch_name>'
         puts ''

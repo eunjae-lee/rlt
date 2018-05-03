@@ -76,7 +76,7 @@ module Rlt
         `git rev-parse --abbrev-ref HEAD`.strip
       end
 
-      def self.print_help(*arguments)
+      def self.print_help(*_arguments)
         puts 'USAGE:'
         puts '  1. rlt commit # Almost same as `git commit`. You do not need `-m` parameter here.'
         puts ''
@@ -84,7 +84,7 @@ module Rlt
       end
 
       def self.valid_parameters?(*arguments)
-        arguments.empty? or (arguments.size == 1 && arguments[0] == '-a')
+        arguments.empty? || (arguments.size == 1 && arguments[0] == '-a')
       end
     end
   end
