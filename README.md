@@ -7,6 +7,8 @@ rlt is a git wrapper with convenient methods included.
 ### cmt
 ```bash
 $ rlt cmt
+Commiting to 'master'
+
 Subject: Fix a bug where user cannot login
 Body:
 > There was a problem at ......
