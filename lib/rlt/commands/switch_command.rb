@@ -23,7 +23,7 @@ module Rlt
       end
 
       def self.checkout(branch_name)
-        result = shell.run! 'git', 'checkout', branch_name
+        result = shell.run_safely 'git', 'checkout', branch_name
         Logger.info "Switched to '#{branch_name}'." unless result.failure?
         result
       end
@@ -45,7 +45,7 @@ module Rlt
       end
 
       def self.shell
-        Shell.new(:null)
+        Shell.new(no_output: true)
       end
     end
   end

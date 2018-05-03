@@ -7,7 +7,7 @@ module Rlt
       def self.build(command)
         Class.new do
           define_singleton_method :run do |_config, *arguments|
-            Shell.new.run! 'git', command, *arguments
+            Shell.new.run_safely 'git', command, *arguments
           end
 
           define_singleton_method :print_help do |*_arguments|
