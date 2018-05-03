@@ -31,10 +31,8 @@ command:
   switch:
     branch_name_template: feature-<%= branch_name %>
   cmt:
-    subject_template: >
-      My prefix <%= subject %>
-    body_template: >
-      <%= body %> http://...
+    subject_template: My prefix <%= subject %>
+    body_template: <%= body %> http://...
 alias:
   br: branch
   sw: switch
