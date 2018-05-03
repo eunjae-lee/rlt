@@ -5,7 +5,7 @@ rlt is a git wrapper with convenient methods included.
 ## Commands
 
 ### cmt
-```
+```bash
 $ rlt cmt
 Subject: Fix a bug where user cannot login
 Body:
@@ -16,7 +16,7 @@ Body:
 If there's nothing to put as body, you can just hit enter to skip it.
 
 ### switch
-```
+```bash
 $ rlt switch <branch_name>
 ```
 
@@ -63,7 +63,7 @@ You can define alias as you want.
 ### Advanced
 You can use this configuration as you want. Just for your information, you can do like this:
 
-```
+```yaml
 command:
   switch:
     branch_name_template: JIRA-<%= branch_name %>
