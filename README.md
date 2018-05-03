@@ -106,7 +106,9 @@ This helps you construct commit message with a convention of yours.
 
 ## Installation
 
-    $ brew install rlt
+    $ gem install rlt
+    
+(not ready yet for brew)
 
 rlt wraps all the native commands of git. So you can make the alias like the following:
 
