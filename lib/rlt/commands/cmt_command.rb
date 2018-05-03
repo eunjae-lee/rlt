@@ -13,14 +13,20 @@ module Rlt
 
       def self.run(config, *arguments)
         branch_name = acquire_branch_name
-        subject = change_subject(ask_subject, config, branch_name)
-        body = change_body(ask_body, config, branch_name)
+        puts "Commiting to '#{Pastel.new.green(branch_name)}'\n\n"
+        (subject, body) = subject_and_body(config, branch_name)
         add_all if arguments[0] == '-a'
         commit(subject, body)
       end
 
       def self.add_all
         Shell.new.run 'git', 'add', '.'
+      end
+
+      def self.subject_and_body(config, branch_name)
+        subject = adjust_subject_template(ask_subject, config, branch_name)
+        body = adjust_body_template(ask_body, config, branch_name)
+        [subject, body]
       end
 
       def self.commit(subject, body)
@@ -60,13 +66,13 @@ module Rlt
       end
       # rubocop:enable Metrics/MethodLength
 
-      def self.change_subject(subject, config, branch_name)
+      def self.adjust_subject_template(subject, config, branch_name)
         template = config[CONF_SUBJECT_TEMPLATE]
         return subject if config.nil? || template.nil?
         ERB.new(template).result binding
       end
 
-      def self.change_body(body, config, branch_name)
+      def self.adjust_body_template(body, config, branch_name)
         template = config[CONF_BODY_TEMPLATE]
         return body if config.nil? || template.nil?
         ERB.new(template).result binding
