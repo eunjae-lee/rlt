@@ -1,6 +1,9 @@
 command:
   switch:
     branch_name_template: JIRA-<%= branch_name %>
+    exclude:
+      - some_branch
+      - some_other_branch
   cmt:
     subject_template: >
       <%=

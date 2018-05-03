@@ -13,9 +13,15 @@ module Rlt
       end
 
       def self.change_branch_name(config, branch_name)
+        return branch_name if exclude?(config, branch_name)
         branch_name_template = config[CONF_BRANCH_NAME_TEMPLATE]
         return branch_name if branch_name_template.nil?
         ERB.new(branch_name_template).result binding
+      end
+
+      def self.exclude?(config, branch_name)
+        list = %w[master develop] + (config['exclude'] || [])
+        list.include? branch_name
       end
 
       def self.switch(branch_name)
