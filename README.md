@@ -61,7 +61,7 @@ World http://...
 You can define alias as you want.
 
 ### Advanced
-You can use this configuration as you want. Just for your information, you can do like this:
+You can utilize this configuration as you want. Just for your information, you can do things like this:
 
 ```yaml
 command:
@@ -69,9 +69,25 @@ command:
     branch_name_template: JIRA-<%= branch_name %>
   cmt:
     subject_template: >
-      <%= if branch_name.start_with?('JIRA-') then "[#{branch_name}] #{subject}" else subject end %>
+      <%=
+        if branch_name.start_with?('JIRA-')
+          "[#{branch_name}] #{subject}"
+        else
+          subject
+        end
+      %>
     body_template: >
-      <%= if branch_name.start_with?('JIRA-') then "http://myjira.com/#{branch_name}\n\n#{body}" else body end %>
+      <%=
+        if branch_name.start_with?('JIRA-')
+          "http://myjira.com/#{branch_name}\n\n#{body}"
+        else
+          body
+        end
+      %>
+alias:
+  br: branch
+  sw: switch
+  l: log --oneline
 ```
 
 If you do `rlt switch 123`, then you'll be in `JIRA-123` branch.
