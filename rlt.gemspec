@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Paul Lee']
   spec.email         = ['paul@valuepotion.com']
 
-  spec.summary       = 'Better git CLI'
+  spec.summary       = 'Go back to command line with `rlt`, the easier git'
   spec.description   = spec.summary
   spec.homepage      = 'https://github.com/eunjae-lee/rlt'
   spec.license       = 'MIT'
