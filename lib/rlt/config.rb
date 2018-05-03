@@ -5,23 +5,20 @@ require 'yaml'
 module Rlt
   module Config
     def config(category, command)
-      category_config(category)[command] || category_config(category)[original(command)] || {}
-    rescue NoMethodError
-      {}
+      c = config_map.dig category, command
+      return c unless c.nil?
+      return {} if command == original_name(command)
+      config_map.dig(category, original_name(command)) || {}
     end
 
-    def original(command)
-      config('alias', command)
+    def original_name(command)
+      config_map.dig 'alias', command
     end
 
     def config_keys(category)
-      category_config(category).keys
-    rescue NoMethodError
-      []
-    end
-
-    def category_config(category)
-      (@config ||= load_config)[category]
+      c = config_map.dig(category)
+      return [] if c.nil?
+      c.keys
     end
 
     def load_config
@@ -36,6 +33,10 @@ module Rlt
       else
         "#{Dir.pwd}/.rlt.yml"
       end
+    end
+
+    def config_map
+      (@config_map ||= load_config)
     end
   end
 end
