@@ -112,6 +112,12 @@ rlt wraps all the native commands of git. So you can make the alias like the fol
 
     $ echo "alias git='rlt'" >> ~/.bash_profile && source ~/.bash_profile
 
+## TODO
+
+* `undo` : Uncommit latest commit
+* `close` : Merge this branch into master(or whatever you configure) and delete this branch
+* any suggestion?
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
