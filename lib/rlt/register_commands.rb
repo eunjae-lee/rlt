@@ -18,7 +18,7 @@ module Rlt
     # rubocop:enable Metrics/MethodLength
 
     def self.git_native_commands
-      %w[add bisect branch checkout clone commit config diff fetch grep init
+      %w[add archive bisect branch checkout clone commit config diff fetch grep init
          log merge mv pull push rebase remote reset rm show status tag]
     end
   end
