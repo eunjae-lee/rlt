@@ -31,7 +31,7 @@ module Rlt
 
       def self.commit(subject, body)
         commit_msg_file_path = "#{Dir.tmpdir}/.rlt.commit.msg.#{short_random_string}"
-        File.write(commit_msg_file_path, "#{subject}\n\n#{body}")
+        File.write(commit_msg_file_path, "#{subject}\n\n#{body}".strip)
         Shell.new.run 'git', 'commit', '-F', commit_msg_file_path
         File.delete(commit_msg_file_path)
       end
