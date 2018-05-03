@@ -5,9 +5,13 @@ require 'yaml'
 module Rlt
   module Config
     def config(category, command)
-      category_config(category)[command]
+      category_config(category)[command] || category_config(category)[original(command)] || {}
     rescue NoMethodError
       {}
+    end
+
+    def original(command)
+      config('alias', command)
     end
 
     def config_keys(category)
