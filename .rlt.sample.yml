@@ -21,6 +21,8 @@ command:
           body
         end
       %>
+  close:
+    master_branch: master
 alias:
   br: branch
   sw: switch

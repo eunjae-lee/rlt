@@ -14,6 +14,7 @@ module Rlt
 
       CommandsMap.add 'switch', 'Switch to branch', Commands::SwitchCommand
       CommandsMap.add 'cmt', 'Commit in clear way', Commands::CmtCommand
+      CommandsMap.add 'close', 'Merge to master and close branch', Commands::CloseCommand
     end
     # rubocop:enable Metrics/MethodLength
 
