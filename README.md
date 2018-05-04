@@ -24,6 +24,9 @@ $ rlt switch <branch_name>
 
 This will switch to `<branch_name>`. If the branch does not exist, then it will create it.
 
+And it automatically stashes uncommitted changes including untracked files switching to other branch.
+When coming back, it automatically unstashes it.
+
 ## Configuration
 
 The great power in rlt comes from configuration, using ERB syntax in YAML.
