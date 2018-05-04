@@ -3,25 +3,25 @@
 require 'pastel'
 
 module Rlt
-  class Logger
+  class ColoredText
     def self.verbose(msg)
-      puts ColoredText.verbose(msg)
+      Pastel.new.white(msg)
     end
 
     def self.info(msg)
-      puts ColoredText.info(msg)
+      Pastel.new.cyan(msg)
     end
 
     def self.desc(msg)
-      puts ColoredText.desc(msg)
+      Pastel.new.magenta(msg)
     end
 
     def self.warn(msg)
-      puts ColoredText.warn(msg)
+      Pastel.new.yellow(msg)
     end
 
     def self.error(msg)
-      puts ColoredText.error(msg)
+      Pastel.new.red(msg)
     end
   end
 end

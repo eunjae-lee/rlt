@@ -2,6 +2,7 @@
 
 require 'rlt/version'
 require 'rlt/shell'
+require 'rlt/colored_text'
 require 'rlt/logger'
 require 'rlt/base_command'
 require 'rlt/git_native_command_builder'

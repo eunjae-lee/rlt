@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'erb'
-require 'pastel'
 require 'tty-prompt'
 require 'tmpdir'
 
@@ -13,7 +12,7 @@ module Rlt
 
       def self.run(config, *arguments)
         branch_name = acquire_branch_name
-        puts "Commiting to '#{Pastel.new.green(branch_name)}'\n\n"
+        puts "Commiting to '#{ColoredText.info(branch_name)}'\n\n"
         (subject, body) = subject_and_body(config, branch_name)
         add_all if arguments[0] == '-a'
         commit(subject, body)
@@ -49,7 +48,7 @@ module Rlt
       end
 
       def self.ask_body
-        puts 'Body: ' + Pastel.new.magenta('(Insert empty line to finish)')
+        puts 'Body: ' + ColoredText.desc('(Insert empty line to finish)')
         lines = ask_multiline_until_done('>', :cyan)
         lines.join("\n")
       end

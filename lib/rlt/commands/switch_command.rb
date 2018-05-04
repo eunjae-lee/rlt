@@ -9,7 +9,9 @@ module Rlt
 
       def self.run(config, *arguments)
         branch_name = change_branch_name(config, arguments[0])
+        save_stash_if_any
         switch(branch_name)
+        apply_stash_if_any(branch_name)
       end
 
       def self.change_branch_name(config, branch_name)
@@ -17,6 +19,20 @@ module Rlt
         branch_name_template = config[CONF_BRANCH_NAME_TEMPLATE]
         return branch_name if branch_name_template.nil?
         ERB.new(branch_name_template).result binding
+      end
+
+      def self.save_stash_if_any
+        return if `git status -s`.strip.empty?
+        Logger.info 'Saving stash'
+        Shell.new.run 'git', 'stash', 'save', '--include-untracked', 'Auto stash'
+      end
+
+      def self.apply_stash_if_any(branch_name)
+        name = stash_name(branch_name)
+        return if name.nil?
+        Logger.info 'Applied stash'
+        Shell.new.run 'git', 'stash', 'apply', name, '--index'
+        Shell.new.run 'git', 'stash', 'drop', name
       end
 
       def self.exclude?(config, branch_name)
@@ -29,13 +45,13 @@ module Rlt
       end
 
       def self.checkout(branch_name)
-        result = shell.run_safely 'git', 'checkout', branch_name
+        result = Shell.new(no_output: true).run_safely 'git', 'checkout', branch_name
         Logger.info "Switched to '#{branch_name}'." unless result.failure?
         result
       end
 
       def self.create_and_checkout(branch_name)
-        shell.run 'git', 'checkout', '-b', branch_name
+        Shell.new(no_output: true).run 'git', 'checkout', '-b', branch_name
         Logger.info "Created & Switched to '#{branch_name}'."
       end
 
@@ -50,8 +66,12 @@ module Rlt
         arguments.size == 1
       end
 
-      def self.shell
-        Shell.new(no_output: true)
+      def self.stash_name(branch_name)
+        line = `git stash list`.strip.split("\n").find do |line|
+          line.split(':')[1].strip == "On #{branch_name}"
+        end
+        return nil if line.nil?
+        line.split(':').first
       end
     end
   end
