@@ -3,7 +3,7 @@
 module Rlt
   module Commands
     class CloseCommand < BaseCommand
-      def self.run(config, *arguments)
+      def self.run(config, *_arguments)
         return unless check_uncommitted_changes
         merge_back_and_forth(master_branch(config))
       end

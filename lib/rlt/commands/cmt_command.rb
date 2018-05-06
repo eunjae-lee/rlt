@@ -7,12 +7,12 @@ require 'tmpdir'
 module Rlt
   module Commands
     class CmtCommand < BaseCommand
-      CONF_SUBJECT_TEMPLATE = 'subject_template'.freeze
-      CONF_BODY_TEMPLATE = 'body_template'.freeze
+      CONF_SUBJECT_TEMPLATE = 'subject_template'
+      CONF_BODY_TEMPLATE = 'body_template'
 
       def self.run(config, *arguments)
         branch_name = acquire_branch_name
-        puts "Commiting to '#{ColoredText.info(branch_name)}'\n\n"
+        puts "Committing to '#{ColoredText.info(branch_name)}'\n\n"
         (subject, body) = subject_and_body(config, branch_name)
         add_all if arguments[0] == '-a'
         commit(subject, body)

@@ -1,24 +1,27 @@
 
 # frozen_string_literal: true
 
-lib = File.expand_path('lib', __dir__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+$LOAD_PATH << File.expand_path('lib', __dir__)
 require 'rlt/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'rlt'
   spec.version       = Rlt::VERSION
-  spec.authors       = ['Paul Lee']
-  spec.email         = ['paul@valuepotion.com']
+  spec.platform      = Gem::Platform::RUBY
+  spec.authors       = ['Eunjae Lee']
+  spec.email         = ['karis612@gmail.com']
 
-  spec.summary       = 'Go back to command line with `rlt`, the easier git'
+  spec.summary       = 'Start using Git on command line again with `rlt`'
   spec.description   = spec.summary
   spec.homepage      = 'https://github.com/eunjae-lee/rlt'
   spec.license       = 'MIT'
+  spec.metadata = {
+    'source_code_uri' => 'https://github.com/eunjae-lee/rlt',
+    'changelog_uri' => 'https://github.com/eunjae-lee/rlt/blob/master/CHANGES.md',
+    'bug_tracker_uri' => 'https://github.com/eunjae-lee/rlt/issues'
+  }
 
-  spec.files         = `git ls-files -z`.split("\x0").reject do |f|
-    f.match(%r{^(test|spec|features)/})
-  end
+  spec.files = Dir['lib/**/*']
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']

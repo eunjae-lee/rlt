@@ -7,7 +7,7 @@ rlt is a git wrapper with convenient methods included.
 ### cmt
 ```bash
 $ rlt cmt
-Commiting to 'master'
+Committing to 'master'
 
 Subject: Fix a bug where user cannot login
 Body:
@@ -139,4 +139,23 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Rlt project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/eunjae-lee/rlt/blob/master/CODE_OF_CONDUCT.md).
+Please note that this project is released with a [CODE OF CONDUCT](CODE_OF_CONDUCT.md). By
+participating in this project you agree to abide by its terms.
+
+## Contributions
+
+Read [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+## License
+
+Copyright 2018 []().
+Read [LICENSE](LICENSE.md) for details.
+
+## History
+
+Read [CHANGES](CHANGES.md) for details.
+Built with [Gemsmith](https://github.com/bkuhlmann/gemsmith).
+
+## Credits
+
+Developed by [Eunjae Lee](karis612@gmail.com).

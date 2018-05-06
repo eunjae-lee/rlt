@@ -1,9 +1,4 @@
-Documentation:
-  Enabled: false
-Metrics/LineLength:
-  Max: 100
-Metrics/MethodLength:
-  Max: 5
+inherit_from: https://gist.githubusercontent.com/eunjae-lee/7c685fbade2cae0ceb7a70f252266517/raw/af5556e6517a66833974c7b64076ba55c575bc0d/.rubocop.yml
 AllCops:
   Exclude:
     - 'lib/rlt/base_command.rb'

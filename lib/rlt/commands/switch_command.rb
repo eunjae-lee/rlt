@@ -5,7 +5,7 @@ require 'erb'
 module Rlt
   module Commands
     class SwitchCommand < BaseCommand
-      CONF_BRANCH_NAME_TEMPLATE = 'branch_name_template'.freeze
+      CONF_BRANCH_NAME_TEMPLATE = 'branch_name_template'
 
       def self.run(config, *arguments)
         branch_name = change_branch_name(config, arguments[0])
