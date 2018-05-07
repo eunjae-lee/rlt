@@ -10,6 +10,8 @@ RSpec.describe Rlt do
   end
 
   it 'tests thor' do
-    Rlt::CLI.start(['hello', 'hehe'])
+    expect do
+      Rlt::CLI.start(['show'])
+    end.to raise_error Rlt::GitNativeCommandError
   end
 end

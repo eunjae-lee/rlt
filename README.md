@@ -6,11 +6,10 @@
 
     $ gem install rlt
 
-(not ready yet for brew)
-
 `rlt` wraps all the native commands of git. So you can make the alias like the following:
 
-    $ echo "alias git='rlt'" >> ~/.bash_profile && source ~/.bash_profile
+    $ echo "alias git='rlt'" >> ~/.bash_profile
+    $ source ~/.bash_profile
 
 ## Commands
 

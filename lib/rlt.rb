@@ -8,5 +8,6 @@ require 'rlt/utils/logger'
 require 'rlt/utils/string_util'
 require 'rlt/utils/git_util'
 require 'rlt/debug'
+require 'rlt/error'
 require 'rlt/cli'
 

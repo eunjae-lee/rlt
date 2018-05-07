@@ -5,6 +5,11 @@ require 'rlt/commands/close'
 
 module Rlt
   class CLI < Thor
+    def self.handle_no_command_error(command)
+      raise GitNativeCommandError if Utils::GitUtil::NATIVE_COMMANDS.include? command
+      super
+    end
+
     def self.command_name(klass)
       Utils::StringUtil.underscore(klass.name.split('::').last)
     end

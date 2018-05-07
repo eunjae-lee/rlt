@@ -14,4 +14,6 @@ rescue TTY::Reader::InputInterrupt
 rescue TTY::Command::ExitError
   puts ''
   # ignore
+rescue Rlt::GitNativeCommandError
+  Rlt::Utils::GitUtil.execute_native_command(ARGV)
 end
