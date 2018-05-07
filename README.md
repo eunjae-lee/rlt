@@ -14,7 +14,7 @@
 
 ## Commands
 
-### cmt
+### `cmt`
 ```bash
 $ git cmt
 Committing to 'master'
@@ -27,7 +27,7 @@ Body:
 
 If there's nothing to put as body, you can just hit enter to skip it.
 
-### switch
+### `switch`
 ```bash
 $ git switch <branch_name>
 ```
@@ -39,7 +39,7 @@ After switching, it unstashes if there's any stash on that branch.
 
 When coming back, it automatically applies and drops the previous stash.
 
-### close
+### `close`
 
 Let's say you're in a branch named `feature-abc`, and your master branch is `master`.
 After finishing work on `feature-login`, if you type the following:
@@ -92,10 +92,10 @@ World http://...
 * Variables available for `subject_template` are `branch_name` and `subject`.
 * Variables available for `body_template` are `branch_name` and `body`.
 
-### alias
+### Alias
 You can define alias as you want.
 
-### Advanced
+### A Complex Example
 You can utilize this configuration as you want. Just for your information, you can do things like this:
 
 ```yaml
