@@ -142,7 +142,6 @@ This helps you construct commit message with a convention of yours.
 ## TODO
 
 * `undo` : Uncommit latest commit
-* `close` : Merge this branch into master(or whatever you configure) and delete this branch
 * any suggestion?
 
 ## Development
