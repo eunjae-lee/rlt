@@ -52,7 +52,7 @@ module Rlt
 
       def self.create_and_checkout(branch_name)
         Utils::GitUtil.silently_create_and_checkout(branch_name)
-        Logger.info "Created & Switched to '#{branch_name}'."
+        Utils::Logger.info "Created & Switched to '#{branch_name}'."
       end
     end
   end

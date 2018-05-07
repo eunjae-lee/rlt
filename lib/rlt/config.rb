@@ -28,11 +28,9 @@ module Rlt
     end
 
     def file_path
-      if Rlt.debug
-        "#{Dir.pwd}/.rlt.sample.yml"
-      else
-        "#{Dir.pwd}/.rlt.yml"
-      end
+      sample_config_path = "#{Dir.pwd}/.rlt.sample.yml"
+      return sample_config_path if Rlt.debug && File.exist?(sample_config_path)
+      "#{Dir.pwd}/.rlt.yml"
     end
 
     def config_map

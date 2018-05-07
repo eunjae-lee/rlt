@@ -1,6 +1,7 @@
 require 'thor'
 require 'rlt/commands/cmt'
 require 'rlt/commands/switch'
+require 'rlt/commands/close'
 
 module Rlt
   class CLI < Thor
@@ -13,7 +14,7 @@ module Rlt
       klass.send(:run, config, *arguments)
     end
 
-    desc 'cmt', 'Commit in clear way'
+    desc 'cmt', 'Commit with structured commit message'
     method_option :add_all,
                   aliases: '-a',
                   desc: 'Add all before commit',
@@ -22,9 +23,14 @@ module Rlt
       CLI.run Rlt::Commands::Cmt, options.add_all?
     end
 
-    desc 'switch <branch_name>', 'Switch to branch'
+    desc 'switch <branch_name>', 'Switch branches with auto stash/unstash'
     def switch(branch_name)
       CLI.run Rlt::Commands::Switch, branch_name
+    end
+
+    desc 'close', 'Delete current branch and merge it to master'
+    def close
+      CLI.run Rlt::Commands::Close
     end
   end
 end

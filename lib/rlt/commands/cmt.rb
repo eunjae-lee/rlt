@@ -11,8 +11,6 @@ module Rlt
       CONF_BODY_TEMPLATE = 'body_template'
 
       def self.run(config, add_all)
-        puts "config : #{config}"
-        puts "add_all : #{add_all}"
         branch_name = Utils::GitUtil.current_branch_name
         Utils::Logger.info "Committing to '#{branch_name}'"
         (subject, body) = subject_and_body(config, branch_name)
