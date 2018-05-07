@@ -1,12 +1,22 @@
-# Rlt
+# rlt
 
-rlt is a git wrapper with convenient methods included.
+`rlt` is a git wrapper with convenient methods included.
+
+## Installation
+
+    $ gem install rlt
+
+(not ready yet for brew)
+
+`rlt` wraps all the native commands of git. So you can make the alias like the following:
+
+    $ echo "alias git='rlt'" >> ~/.bash_profile && source ~/.bash_profile
 
 ## Commands
 
 ### cmt
 ```bash
-$ rlt cmt
+$ git cmt
 Committing to 'master'
 
 Subject: Fix a bug where user cannot login
@@ -19,13 +29,35 @@ If there's nothing to put as body, you can just hit enter to skip it.
 
 ### switch
 ```bash
-$ rlt switch <branch_name>
+$ git switch <branch_name>
 ```
 
 This will switch to `<branch_name>`. If the branch does not exist, then it will create it.
 
-And it automatically stashes uncommitted changes including untracked files switching to other branch.
-When coming back, it automatically unstashes it.
+And it automatically stashes uncommitted changes(including untracked files) before switching to other branch.
+After switching, it unstashes if there's any stash on that branch.
+
+When coming back, it automatically applies and drops the previous stash.
+
+### close
+
+Let's say you're in a branch named `feature-abc`, and your master branch is `master`.
+After finishing work on `feature-login`, if you type the following:
+
+```bash
+$ git close
+```
+
+then, these are what happens:
+
+1. Merges from `master` into `feature-abc`
+2. (Aborts if there are any conflicts)
+3. Switches to `master`
+4. Merges from `feature-abc` into `master`
+5. Delete `feature-abc`
+6. Try to delete remote `feature-abc`
+
+It won't work if there's any uncommitted changes in current branch.
 
 ## Configuration
 
@@ -44,11 +76,11 @@ alias:
   l: log --oneline
 ```
 
-### switch
+### `switch` with configuration
 When you type `rlt switch login`, then it will automatically switch to a branch named `feature-login`.
 * Variable available for `branch_name_template` is `branch_name`.
 
-### cmt
+### `cmt` with configuration
 When you `cmt` with subject 'Hello' and body 'World', then the commit message will be:
 
 ```
@@ -107,16 +139,6 @@ World
 
 This helps you construct commit message with a convention of yours.
 
-## Installation
-
-    $ gem install rlt
-    
-(not ready yet for brew)
-
-rlt wraps all the native commands of git. So you can make the alias like the following:
-
-    $ echo "alias git='rlt'" >> ~/.bash_profile && source ~/.bash_profile
-
 ## TODO
 
 * `undo` : Uncommit latest commit
@@ -148,13 +170,12 @@ Read [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## License
 
-Copyright 2018 []().
+Copyright 2018.
 Read [LICENSE](LICENSE.md) for details.
 
 ## History
 
 Read [CHANGES](CHANGES.md) for details.
-Built with [Gemsmith](https://github.com/bkuhlmann/gemsmith).
 
 ## Credits
 

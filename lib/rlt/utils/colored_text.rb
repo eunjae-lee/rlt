@@ -10,7 +10,7 @@ module Rlt
       end
 
       def self.info(msg)
-        Pastel.new.decorate(msg, :cyan, :bold)
+        Pastel.new.magenta.bold(msg)
       end
 
       def self.desc(msg)

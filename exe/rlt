@@ -11,4 +11,7 @@ begin
 rescue TTY::Reader::InputInterrupt
   puts ''
   # ignore
+rescue TTY::Command::ExitError
+  puts ''
+  # ignore
 end
