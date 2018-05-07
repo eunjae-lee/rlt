@@ -7,9 +7,13 @@ module Rlt
         master_branch = master_branch(config)
         current_branch_name = Utils::GitUtil.current_branch_name
         return if should_stop?(master_branch, config)
+        run_internal(current_branch_name, master_branch)
+        Utils::Logger.info "Done closing `#{current_branch_name}`."
+      end
+
+      def self.run_internal(current_branch_name, master_branch)
         merge_back_and_forth(current_branch_name, master_branch)
         delete_branch(current_branch_name)
-        Utils::Logger.info "Done closing `#{current_branch_name}`."
       end
 
       def self.should_stop?(master_branch, config)
@@ -41,13 +45,10 @@ module Rlt
       end
 
       def self.merge_back_and_forth(current_branch_name, master_branch)
-        Utils::Logger.info "Merging from `#{master_branch}`"
-        Utils::GitUtil.merge_from(master_branch)
+        Utils::GitUtil.merge_from(master_branch, print_info: true)
         return if any_conflict?
-        Utils::Logger.info "Switching to `#{master_branch}`"
-        Utils::GitUtil.checkout(master_branch)
-        Utils::Logger.info "Merging from `#{current_branch_name}`"
-        Utils::GitUtil.merge_from(current_branch_name)
+        Utils::GitUtil.checkout(master_branch, print_info: true)
+        Utils::GitUtil.merge_from(current_branch_name, print_info: true)
       end
 
       def self.any_conflict?
@@ -83,11 +84,9 @@ module Rlt
       end
 
       def self.delete_branch(current_branch_name)
-        Utils::Logger.info "Deleting `#{current_branch_name}`"
-        Utils::GitUtil.delete_branch(current_branch_name)
+        Utils::GitUtil.delete_branch(current_branch_name, print_info: true)
         Utils::GitUtil.remotes.each do |remote|
-          Utils::Logger.info "Try deleting remote branch: #{remote}/#{current_branch_name}"
-          Utils::GitUtil.safely_delete_remote_branch(remote, current_branch_name)
+          Utils::GitUtil.safely_delete_remote_branch(remote, current_branch_name, print_info: true)
         end
       end
     end

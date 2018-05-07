@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'thor'
 require 'rlt/commands/cmt'
 require 'rlt/commands/switch'

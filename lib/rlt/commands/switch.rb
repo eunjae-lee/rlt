@@ -23,16 +23,14 @@ module Rlt
 
       def self.save_stash_if_any
         return if Utils::GitUtil.uncommitted_change?
-        Utils::Logger.info 'Saving stash'
-        Utils::GitUtil.save_stash('Auto stash')
+        Utils::GitUtil.save_stash('Auto stash', print_info: true)
       end
 
       def self.apply_stash_if_any(branch_name)
         stash_name = Utils::GitUtil.latest_stash_name(branch_name)
         return if stash_name.nil?
-        Logger.info 'Applied stash'
-        Utils::GitUtil.apply_stash(stash_name)
-        Utils::GitUtil.drop_stash(stash_name)
+        Utils::GitUtil.apply_stash(stash_name, print_info: true)
+        Utils::GitUtil.drop_stash(stash_name, print_info: true)
       end
 
       def self.dont_change_branch_name?(config, branch_name)

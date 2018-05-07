@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Rlt
   module Utils
     class GitUtil
@@ -40,26 +42,30 @@ module Rlt
       end
 
       def self.latest_stash_name(branch_name)
-        line = `git stash list`.strip.split("\n").find do |line|
-          line.split(':')[1].strip == "On #{branch_name}"
+        line = `git stash list`.strip.split("\n").find do |l|
+          l.split(':')[1].strip == "On #{branch_name}"
         end
         return nil if line.nil?
         line.split(':').first
       end
 
-      def self.save_stash(message)
+      def self.save_stash(message, opts = {})
+        Logger.info 'Saving stash' if opts[:print_info]
         Shell.new.run 'git', 'stash', 'save', '--include-untracked', message
       end
 
-      def self.apply_stash(name)
+      def self.apply_stash(name, opts = {})
+        Logger.info 'Applied stash' if opts[:print_info]
         Shell.new.run 'git', 'stash', 'apply', name, '--index'
       end
 
-      def self.drop_stash(name)
+      def self.drop_stash(name, opts = {})
+        Logger.info 'Dropped stash' if opts[:print_info]
         Shell.new.run 'git', 'stash', 'drop', name
       end
 
-      def self.checkout(branch_name)
+      def self.checkout(branch_name, opts = {})
+        Logger.info "Switching to `#{branch_name}`" if opts[:print_info]
         Shell.new.run 'git', 'checkout', branch_name
       end
 
@@ -80,7 +86,8 @@ module Rlt
         File.delete(commit_msg_file_path)
       end
 
-      def self.merge_from(branch_name)
+      def self.merge_from(branch_name, opts = {})
+        Logger.info "Merging from `#{branch_name}`" if opts[:print_info]
         Shell.new.run 'git', 'merge', branch_name
       end
 
@@ -88,7 +95,8 @@ module Rlt
         !`git diff --name-only --diff-filter=U`.strip.empty?
       end
 
-      def self.delete_branch(branch_name)
+      def self.delete_branch(branch_name, opts = {})
+        Logger.info "Deleting `#{branch_name}`" if opts[:print_info]
         Shell.new.run 'git', 'branch', '-d', branch_name
       end
 
@@ -96,7 +104,8 @@ module Rlt
         `git remote`.strip.split('\n')
       end
 
-      def self.safely_delete_remote_branch(remote, branch_name)
+      def self.safely_delete_remote_branch(remote, branch_name, opts = {})
+        Logger.info "Try deleting remote branch: #{remote}/#{branch_name}" if opts[:print_info]
         Shell.new.run_safely 'git', 'push', remote, ":#{branch_name}"
       end
     end

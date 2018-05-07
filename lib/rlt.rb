@@ -10,4 +10,3 @@ require 'rlt/utils/git_util'
 require 'rlt/debug'
 require 'rlt/error'
 require 'rlt/cli'
-
