@@ -1,5 +1,7 @@
 # rlt
 
+Start using Git on command line again with `rlt`.
+
 `rlt` is a git wrapper with convenient methods included.
 
 ## Installation
