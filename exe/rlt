@@ -2,8 +2,8 @@
 
 # frozen_string_literal: true
 
-$LOAD_PATH.unshift File.expand_path('../lib', __dir__)
+$LOAD_PATH << File.expand_path('lib', __dir__)
 
 require 'rlt'
 
-Rlt.run(ARGV)
+Rlt::CLI.start(ARGV)

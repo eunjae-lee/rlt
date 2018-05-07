@@ -8,4 +8,8 @@ RSpec.describe Rlt do
   it 'does something useful' do
     expect(false).to eq(true)
   end
+
+  it 'tests thor' do
+    Rlt::CLI.start(['hello', 'hehe'])
+  end
 end

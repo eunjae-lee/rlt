@@ -3,6 +3,7 @@ PATH
   specs:
     rlt (0.1.5)
       pastel (~> 0.7.2)
+      thor (~> 0.20.0)
       tty-command (~> 0.8.0)
       tty-prompt (~> 0.16.1)
 
@@ -44,6 +45,7 @@ GEM
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.9.0)
+    thor (0.20.0)
     timers (4.1.2)
       hitimes
     tty-color (0.4.2)

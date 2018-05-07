@@ -7,11 +7,11 @@ module Rlt
     def config(category, command)
       c = config_map.dig category, command
       return c unless c.nil?
-      return {} if command == original_name(command)
-      config_map.dig(category, original_name(command)) || {}
+      return {} if command == original_name_of_alias(command)
+      config_map.dig(category, original_name_of_alias(command)) || {}
     end
 
-    def original_name(command)
+    def original_name_of_alias(command)
       config_map.dig 'alias', command
     end
 
@@ -39,4 +39,6 @@ module Rlt
       (@config_map ||= load_config)
     end
   end
+
+  extend Config
 end

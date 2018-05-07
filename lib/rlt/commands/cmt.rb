@@ -6,20 +6,18 @@ require 'tmpdir'
 
 module Rlt
   module Commands
-    class CmtCommand < BaseCommand
+    class Cmt
       CONF_SUBJECT_TEMPLATE = 'subject_template'
       CONF_BODY_TEMPLATE = 'body_template'
 
-      def self.run(config, *arguments)
-        branch_name = acquire_branch_name
-        puts "Committing to '#{ColoredText.info(branch_name)}'\n\n"
+      def self.run(config, add_all)
+        puts "config : #{config}"
+        puts "add_all : #{add_all}"
+        branch_name = Utils::GitUtil.current_branch_name
+        Utils::Logger.info "Committing to '#{branch_name}'"
         (subject, body) = subject_and_body(config, branch_name)
-        add_all if arguments[0] == '-a'
+        Utils::GitUtil.add_all if add_all
         commit(subject, body)
-      end
-
-      def self.add_all
-        Shell.new.run 'git', 'add', '.'
       end
 
       def self.subject_and_body(config, branch_name)
@@ -29,27 +27,20 @@ module Rlt
       end
 
       def self.commit(subject, body)
-        commit_msg_file_path = "#{Dir.tmpdir}/.rlt.commit.msg.#{short_random_string}"
-        File.write(commit_msg_file_path, "#{subject}\n\n#{body}".strip)
-        Shell.new.run 'git', 'commit', '-F', commit_msg_file_path
-        File.delete(commit_msg_file_path)
-      end
-
-      def self.short_random_string
-        (0...4).map { rand(65..90).chr }.join
+        Utils::GitUtil.commit_with_long_message("#{subject}\n\n#{body}".strip)
       end
 
       def self.ask_subject
         prompt = TTY::Prompt.new
-        prompt.ask('Subject:', active_color: :cyan) do |q|
+        prompt.ask('Subject:', active_color: :magenta) do |q|
           q.required true
           q.modify :capitalize
-        end
+        end.gsub(/\.$/, '')
       end
 
       def self.ask_body
-        puts 'Body: ' + ColoredText.desc('(Insert empty line to finish)')
-        lines = ask_multiline_until_done('>', :cyan)
+        puts 'Body: (Insert empty line to finish)'
+        lines = ask_multiline_until_done('>', :magenta)
         lines.join("\n")
       end
 
@@ -75,21 +66,6 @@ module Rlt
         template = config[CONF_BODY_TEMPLATE]
         return body if config.nil? || template.nil?
         ERB.new(template).result binding
-      end
-
-      def self.acquire_branch_name
-        `git rev-parse --abbrev-ref HEAD`.strip
-      end
-
-      def self.print_help(*_arguments)
-        puts 'USAGE:'
-        puts '  1. rlt commit # Almost same as `git commit`. You do not need `-m` parameter here.'
-        puts ''
-        puts '  2. rlt commit -a # This performs `git add .` before committing.'
-      end
-
-      def self.valid_parameters?(*arguments)
-        arguments.empty? || (arguments.size == 1 && arguments[0] == '-a')
       end
     end
   end
