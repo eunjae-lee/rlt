@@ -6,4 +6,9 @@ $LOAD_PATH << File.expand_path('lib', __dir__)
 
 require 'rlt'
 
-Rlt::CLI.start(ARGV)
+begin
+  Rlt::CLI.start(ARGV)
+rescue TTY::Reader::InputInterrupt
+  puts ''
+  # ignore
+end
