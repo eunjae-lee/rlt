@@ -6,8 +6,10 @@ $LOAD_PATH << File.expand_path('lib', __dir__)
 
 require 'rlt'
 
+argv = Rlt::Alias.unpack(ARGV)
+
 begin
-  Rlt::CLI.start(ARGV)
+  Rlt::CLI.start(argv)
 rescue TTY::Reader::InputInterrupt
   puts ''
   # ignore
@@ -15,5 +17,5 @@ rescue TTY::Command::ExitError
   puts ''
   # ignore
 rescue Rlt::GitNativeCommandError
-  Rlt::Utils::GitUtil.execute_native_command(ARGV)
+  Rlt::Utils::GitUtil.execute_native_command(argv)
 end

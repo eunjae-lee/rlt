@@ -27,3 +27,4 @@ alias:
   br: branch
   sw: switch
   l: log --oneline
+  cmt: cmt -a
