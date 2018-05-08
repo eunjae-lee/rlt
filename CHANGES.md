@@ -1,3 +1,7 @@
+# 0.1.7 (2018-05-08)
+
+- Fix a bug where it cannot process aliases.
+
 # 0.1.6 (2018-05-07)
 
 - Add `close` command.
