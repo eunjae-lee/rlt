@@ -22,7 +22,9 @@ module Rlt
     end
 
     def load_config(path)
-      YAML.load_file(path)
+      result = YAML.load_file(path)
+      return result if result.is_a? Hash
+      {}
     rescue Errno::ENOENT
       {}
     end

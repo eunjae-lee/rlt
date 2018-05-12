@@ -70,8 +70,7 @@ module Rlt
       end
 
       def self.silently_try_checkout(branch_name)
-        result = Shell.new(no_output: true).run_safely 'git', 'checkout', branch_name
-        result.success?
+        Shell.new(no_output: true).run_safely 'git', 'checkout', branch_name
       end
 
       def self.silently_create_and_checkout(branch_name)
