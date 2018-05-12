@@ -6,7 +6,7 @@ module Rlt
       def self.run(config)
         master_branch = master_branch(config)
         current_branch_name = Utils::GitUtil.current_branch_name
-        return if should_stop?(master_branch, config)
+        return if should_stop?(master_branch)
         run_internal(current_branch_name, master_branch)
         Utils::Logger.info "Done closing `#{current_branch_name}`."
       end
@@ -16,21 +16,14 @@ module Rlt
         delete_branch(current_branch_name)
       end
 
-      def self.should_stop?(master_branch, config)
+      def self.should_stop?(master_branch)
         return true if uncommitted_changes?
-        return true if config_not_existing?(config)
         return true if master_branch_now?(master_branch)
       end
 
       def self.uncommitted_changes?
         result = Utils::GitUtil.uncommitted_change?
         print_uncommitted_changes_error if result
-        result
-      end
-
-      def self.config_not_existing?(config)
-        result = config['master_branch'].nil?
-        print_explicit_config_error if result
         result
       end
 
@@ -41,7 +34,7 @@ module Rlt
       end
 
       def self.master_branch(config)
-        config['master_branch']
+        config['master_branch'] || 'master'
       end
 
       def self.merge_back_and_forth(current_branch_name, master_branch)
@@ -61,18 +54,6 @@ module Rlt
         Utils::Logger.error 'There are uncommitted changes.'
         Utils::Logger.error 'Commit them first!'
       end
-
-      # rubocop:disable Metrics/MethodLength
-      def self.print_explicit_config_error
-        Utils::Logger.error 'You must explicitly configure name of master branch at `.rlt.yml`'
-        Utils::Logger.error 'For example,'
-        Utils::Logger.error ''
-        Utils::Logger.error '# .rlt.yml'
-        Utils::Logger.error 'command:'
-        Utils::Logger.error '  close:'
-        Utils::Logger.error '    master_branch: master'
-      end
-      # rubocop:enable Metrics/MethodLength
 
       def self.print_master_branch_now_error(master_branch)
         Utils::Logger.error "You cannot close `#{master_branch}`."
