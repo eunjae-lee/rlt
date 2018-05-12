@@ -4,21 +4,21 @@ module Rlt
   module Commands
     class Close
       def self.run(config)
-        master_branch = master_branch(config)
+        default_branch = default_branch(config)
         current_branch_name = Utils::GitUtil.current_branch_name
-        return if should_stop?(master_branch)
-        run_internal(current_branch_name, master_branch)
+        return if should_stop?(default_branch)
+        run_internal(current_branch_name, default_branch)
         Utils::Logger.info "Done closing `#{current_branch_name}`."
       end
 
-      def self.run_internal(current_branch_name, master_branch)
-        merge_back_and_forth(current_branch_name, master_branch)
+      def self.run_internal(current_branch_name, default_branch)
+        merge_back_and_forth(current_branch_name, default_branch)
         delete_branch(current_branch_name)
       end
 
-      def self.should_stop?(master_branch)
+      def self.should_stop?(default_branch)
         return true if uncommitted_changes?
-        return true if master_branch_now?(master_branch)
+        return true if default_branch_now?(default_branch)
       end
 
       def self.uncommitted_changes?
@@ -27,20 +27,20 @@ module Rlt
         result
       end
 
-      def self.master_branch_now?(master_branch)
-        result = Utils::GitUtil.current_branch_name == master_branch
-        print_master_branch_now_error(master_branch) if result
+      def self.default_branch_now?(default_branch)
+        result = Utils::GitUtil.current_branch_name == default_branch
+        print_default_branch_now_error(default_branch) if result
         result
       end
 
-      def self.master_branch(config)
-        config['master_branch'] || 'master'
+      def self.default_branch(config)
+        config['default_branch'] || 'master'
       end
 
-      def self.merge_back_and_forth(current_branch_name, master_branch)
-        Utils::GitUtil.merge_from(master_branch, print_info: true)
+      def self.merge_back_and_forth(current_branch_name, default_branch)
+        Utils::GitUtil.merge_from(default_branch, print_info: true)
         return if any_conflict?
-        Utils::GitUtil.checkout(master_branch, print_info: true)
+        Utils::GitUtil.checkout(default_branch, print_info: true)
         Utils::GitUtil.merge_from(current_branch_name, print_info: true)
       end
 
@@ -55,8 +55,8 @@ module Rlt
         Utils::Logger.error 'Commit them first!'
       end
 
-      def self.print_master_branch_now_error(master_branch)
-        Utils::Logger.error "You cannot close `#{master_branch}`."
+      def self.print_default_branch_now_error(default_branch)
+        Utils::Logger.error "You cannot close `#{default_branch}`."
       end
 
       def self.print_conflict_error
