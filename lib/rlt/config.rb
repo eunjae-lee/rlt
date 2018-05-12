@@ -21,20 +21,28 @@ module Rlt
       c.keys
     end
 
-    def load_config
-      YAML.load_file(file_path)
+    def load_config(path)
+      YAML.load_file(path)
     rescue Errno::ENOENT
       {}
     end
 
-    def file_path
+    def local_config_path
       sample_config_path = "#{Dir.pwd}/.rlt.sample.yml"
       return sample_config_path if Rlt.debug && File.exist?(sample_config_path)
       "#{Dir.pwd}/.rlt.yml"
     end
 
+    def global_config_path
+      File.expand_path('~/.rlt.yml')
+    end
+
+    def load_all_configs
+      load_config(global_config_path).merge(load_config(local_config_path))
+    end
+
     def config_map
-      (@config_map ||= load_config)
+      (@config_map ||= load_all_configs)
     end
   end
 
