@@ -4,6 +4,7 @@ require 'thor'
 require 'rlt/commands/cmt'
 require 'rlt/commands/switch'
 require 'rlt/commands/close'
+require 'rlt/commands/rst'
 
 module Rlt
   class CLI < Thor

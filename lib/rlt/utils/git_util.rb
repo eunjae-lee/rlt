@@ -34,7 +34,7 @@ module Rlt
       end
 
       def self.add_all
-        Shell.new.run 'git', 'add', '-A'
+        Shell.new.run 'git add -A'
       end
 
       def self.uncommitted_change?
@@ -51,43 +51,43 @@ module Rlt
 
       def self.save_stash(message, opts = {})
         Logger.info 'Saving stash' if opts[:print_info]
-        Shell.new.run 'git', 'stash', 'save', '--include-untracked', message
+        Shell.new.run 'git stash save', '--include-untracked', message
       end
 
       def self.apply_stash(name, opts = {})
         Logger.info 'Applied stash' if opts[:print_info]
-        Shell.new.run 'git', 'stash', 'apply', name, '--index'
+        Shell.new.run 'git stash apply', name, '--index'
       end
 
       def self.drop_stash(name, opts = {})
         Logger.info 'Dropped stash' if opts[:print_info]
-        Shell.new.run 'git', 'stash', 'drop', name
+        Shell.new.run 'git stash drop', name
       end
 
       def self.checkout(branch_name, opts = {})
         Logger.info "Switching to `#{branch_name}`" if opts[:print_info]
-        Shell.new.run 'git', 'checkout', branch_name
+        Shell.new.run 'git checkout', branch_name
       end
 
       def self.silently_try_checkout(branch_name)
-        Shell.new(no_output: true).run_safely 'git', 'checkout', branch_name
+        Shell.new(no_output: true).run_safely 'git checkout', branch_name
       end
 
       def self.silently_create_and_checkout(branch_name)
-        Shell.new(no_output: true).run 'git', 'checkout', '-b', branch_name
+        Shell.new(no_output: true).run 'git checkout -b', branch_name
       end
 
       def self.commit_with_long_message(message)
         Logger.verbose message if Rlt.debug
         commit_msg_file_path = "#{Dir.tmpdir}/.rlt.commit.msg.#{StringUtil.short_random_string}"
         File.write(commit_msg_file_path, message)
-        Shell.new.run 'git', 'commit', '-F', commit_msg_file_path
+        Shell.new.run 'git commit -F', commit_msg_file_path
         File.delete(commit_msg_file_path)
       end
 
       def self.merge_from(branch_name, opts = {})
         Logger.info "Merging from `#{branch_name}`" if opts[:print_info]
-        Shell.new.run 'git', 'merge', branch_name
+        Shell.new.run 'git merge', branch_name
       end
 
       def self.any_conflict?
@@ -96,7 +96,7 @@ module Rlt
 
       def self.delete_branch(branch_name, opts = {})
         Logger.info "Deleting `#{branch_name}`" if opts[:print_info]
-        Shell.new.run 'git', 'branch', '-d', branch_name
+        Shell.new.run 'git branch -d', branch_name
       end
 
       def self.remotes
@@ -105,7 +105,15 @@ module Rlt
 
       def self.safely_delete_remote_branch(remote, branch_name, opts = {})
         Logger.info "Try deleting remote branch: #{remote}/#{branch_name}" if opts[:print_info]
-        Shell.new.run_safely 'git', 'push', remote, ":#{branch_name}"
+        Shell.new.run_safely 'git push', remote, ":#{branch_name}"
+      end
+
+      def self.reset_hard_head
+        Shell.new.run 'git reset --hard HEAD'
+      end
+
+      def self.clean_untracked
+        Shell.new.run 'git clean -fd'
       end
     end
   end
