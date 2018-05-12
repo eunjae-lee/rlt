@@ -2,16 +2,16 @@
 
 Start using Git on command line again with `rlt`.
 
-`rlt` is a git wrapper with convenient methods included.
-
 ## Installation
 
     $ gem install rlt
 
-`rlt` wraps all the native commands of git. So you can make the alias like the following:
+`rlt` wraps all the native commands from git. So you can make an alias like the following:
 
-    $ echo "alias git='rlt'" >> ~/.bash_profile
-    $ source ~/.bash_profile
+```bash
+$ echo "alias git='rlt'" >> ~/.bash_profile
+$ source ~/.bash_profile
+```
 
 ## Commands
 
@@ -26,7 +26,9 @@ Body:
 >
 ```
 
-If there's nothing to put as body, you can just hit enter to skip it.
+Just hit enter to skip if there's nothing to write down as body.
+
+If you pass a parameter `-a`, it will `git add -A` before committing.
 
 ### `switch`
 ```bash
@@ -43,106 +45,138 @@ When coming back, it automatically applies and drops the previous stash.
 ### `close`
 
 Let's say you're in a branch named `feature-abc`, and your master branch is `master`.
-After finishing work on `feature-login`, if you type the following:
+When your work is done enough and you're ready to merge it to `master`,
+type the following:
 
 ```bash
 $ git close
 ```
 
-then, these are what happens:
+then, it will
 
-1. Merges from `master` into `feature-abc`
-2. (Aborts if there are any conflicts)
-3. Switches to `master`
-4. Merges from `feature-abc` into `master`
+1. Merge from `master` into `feature-abc`
+2. Abort if there's any conflict
+3. Switch to `master`
+4. Merge from `feature-abc` into `master`
 5. Delete `feature-abc`
 6. Try to delete remote `feature-abc`
 
-It won't work if there's any uncommitted changes in current branch.
+Make sure there's no uncommitted changes in current branch before this command.
+Otherwise, it will abort.
 
 ## Configuration
 
-The great power in rlt comes from configuration, using ERB syntax in YAML.
+Everything works fine without any configuration.
+
+However, the great power comes with a configuration, using ERB syntax in YAML.
+
+You can have a global config at `~/.rlt.yml`. You also can put project-specific config file at root of your project.
+
+`rlt` will merge those two configs.
+
+### alias
+You can put any alias as you want.
+```yaml
+alias:
+  cmt: cmt -a
+  l: log --oneline
+```
+
+This way, you can always put `-a` option as default.
+You could also make aliases for native commands like `log` from git.
+
+### `close`
+If you're using `develop` or other name for active development, do things like this:
+```yaml
+command:
+  close:
+    default_branch: develop
+```
+
+### `switch`
 
 ```yaml
 command:
   switch:
     branch_name_template: feature-<%= branch_name %>
-  cmt:
-    subject_template: My prefix <%= subject %>
-    body_template: <%= body %> http://...
-alias:
-  br: branch
-  sw: switch
-  l: log --oneline
 ```
-
-### `switch` with configuration
 When you type `rlt switch login`, then it will automatically switch to a branch named `feature-login`.
 * Variable available for `branch_name_template` is `branch_name`.
 
-### `cmt` with configuration
-When you `cmt` with subject 'Hello' and body 'World', then the commit message will be:
+### `cmt`
 
-```
-My prefix Hello
+#### Template
 
-World http://...
-```
-
-* Variables available for `subject_template` are `branch_name` and `subject`.
-* Variables available for `body_template` are `branch_name` and `body`.
-
-### Alias
-You can define alias as you want.
-
-### A Complex Example
-You can utilize this configuration as you want. Just for your information, you can do things like this:
+Here goes an example which might look complicated but actually it isn't.
 
 ```yaml
 command:
-  switch:
-    branch_name_template: JIRA-<%= branch_name %>
   cmt:
     subject_template: >
       <%=
-        if branch_name.start_with?('JIRA-')
-          "[#{branch_name}] #{subject}"
+        result = branch_name.match(/^JIRA-(\d+)-(.*)/)
+        if result
+          "[JIRA-#{result[1]}] #{subject}"
         else
           subject
         end
       %>
     body_template: >
       <%=
-        if branch_name.start_with?('JIRA-')
-          "http://myjira.com/#{branch_name}\n\n#{body}"
+        result = branch_name.match(/^JIRA-(\d+)-(.*)/)
+        if result
+          "https://my-jira.atlassian.net/browse/JIRA-#{result[1]}\n\n#{body}"
         else
           body
         end
       %>
-alias:
-  br: branch
-  sw: switch
-  l: log --oneline
 ```
 
-If you do `rlt switch 123`, then you'll be in `JIRA-123` branch.
+Let's say you're in a branch named `JIRA-342-fix-login` and you made a commit like the following:
 
-As long as you're in that branch, when you `cmt` with subject 'Hello' and body 'World', then the commit message will be:
+```bash
+$ git cmt
+Committing to 'JIRA-342-fix-login'
 
+Subject: Fix a bug where user cannot login
+Body:
+> There was a problem at ......
+>
 ```
-[JIRA-123] Hello
 
-http://myjira.com/JIRA-123
+Then `rlt` will automatically change the subject and body, so the actual commit message will be:
 
-World
+```bash
+$ git log
+
+commit c333021cidkc5f0117bdbf5ffdlwf5add7293b27
+Author: Eunjae Lee <karis612@gmail.com>
+Date:   Fri May 11 18:28:44 2018 +0800
+
+    [JIRA-342] Fix a bug where user cannot login
+
+    https://my-jira.atlassian.net/browse/JIRA-342
+
+    There was a problem at ......
 ```
 
-This helps you construct commit message with a convention of yours.
+* Variables available for `subject_template` are `branch_name` and `subject`.
+* Variables available for `body_template` are `branch_name` and `body`.
+
+#### pre-script
+
+You can also put `pre-script` to `cmt` command.
+
+```yaml
+command:
+  cmt:
+    pre: rubocop --auto-correct
+```
+
+`rlt` will execute `rubocop --auto-correct` and if it returns non-zero status, it will abort.
 
 ## TODO
 
-* `undo` : Uncommit latest commit
 * any suggestion?
 
 ## Development

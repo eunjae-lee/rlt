@@ -22,7 +22,7 @@ command:
         end
       %>
   close:
-    master_branch: master
+    default_branch: master
 alias:
   br: branch
   sw: switch
