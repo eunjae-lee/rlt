@@ -34,7 +34,7 @@ module Rlt
       end
 
       def self.dont_change_branch_name?(config, branch_name)
-        list = %w[master develop] + (config['exclude'] || [])
+        list = %w[master develop] + (config['dont_change_names'] || [])
         list.include? branch_name
       end
 

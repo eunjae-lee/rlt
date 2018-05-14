@@ -9,8 +9,26 @@ module Rlt
     class Cmt
       CONF_SUBJECT_TEMPLATE = 'subject_template'
       CONF_BODY_TEMPLATE = 'body_template'
+      CONF_PRE = 'pre'
 
       def self.run(config, add_all)
+        result = run_pre_script_if_any(config)
+        return print_abort_due_to_pre_script_failure unless result
+        ask_and_commit(add_all, config)
+      end
+
+      def self.print_abort_due_to_pre_script_failure
+        Utils::Logger.error 'Aborted due to the pre-script failed.'
+      end
+
+      def self.run_pre_script_if_any(config)
+        return true if config[CONF_PRE].nil?
+        Utils::Logger.info 'Executing pre-script:'
+        Utils::Logger.desc "  #{config[CONF_PRE]}"
+        Utils::Shell.new.run_safely config[CONF_PRE]
+      end
+
+      def self.ask_and_commit(add_all, config)
         branch_name = Utils::GitUtil.current_branch_name
         Utils::Logger.info "Committing to '#{branch_name}'"
         (subject, body) = subject_and_body(config, branch_name)

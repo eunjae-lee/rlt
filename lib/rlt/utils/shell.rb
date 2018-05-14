@@ -18,7 +18,7 @@ module Rlt
       def run_safely(*args)
         result = @cmd.run!(*args, user: current_user)
         puts '' if Rlt.debug
-        result
+        result.success?
       end
 
       def current_user
