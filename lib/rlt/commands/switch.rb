@@ -22,7 +22,7 @@ module Rlt
       end
 
       def self.save_stash_if_any
-        return if Utils::GitUtil.uncommitted_change?
+        return unless Utils::GitUtil.uncommitted_change?
         Utils::GitUtil.save_stash('Auto stash', print_info: true)
       end
 
