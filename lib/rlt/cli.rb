@@ -40,5 +40,10 @@ module Rlt
     def close
       CLI.run Rlt::Commands::Close
     end
+
+    desc 'rst', 'Do a hard reset and clean untracked files'
+    def rst
+      CLI.run Rlt::Commands::Rst
+    end
   end
 end
