@@ -48,10 +48,24 @@ module Rlt
 
       def self.ask_subject
         prompt = TTY::Prompt.new
-        prompt.ask('Subject:', active_color: :magenta) do |q|
+        subject = prompt.ask('Subject:', active_color: :magenta) do |q|
           q.required true
-          q.modify :capitalize
-        end.gsub(/\.$/, '')
+        end
+        garden_subject(subject)
+      end
+
+      def self.garden_subject(subject)
+        subject = remove_period(subject)
+        subject = first_letter_upcase(subject)
+        subject
+      end
+
+      def self.remove_period(str)
+        str.gsub(/\.$/, '')
+      end
+
+      def self.first_letter_upcase(str)
+        str[0].upcase + str[1..-1]
       end
 
       def self.ask_body
